@@ -1,14 +1,3 @@
-def binomial(n, k):
-	if(k>(n/2)):
-		return binomial(n, n-k)
-	num=1
-	for i in range (0, k):
-		num=num*(n-i)
-	den=1
-	for i in range (1, k+1):
-		den=den*i
-	return num/den
-
 n=int(input())
 ans=1
 term=1

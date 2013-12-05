@@ -23,9 +23,9 @@ int main(){
 				men[i][j]=tmp-1;
 			}
 		} 
-		list<int> freemen;
+		queue<int> freemen;
 		for(int i=0; i<n; i++)
-			freemen.push_back(i);
+			freemen.push(i);
 
 		int menListIndex[n], womenPartner[n];
 		for(int i=0; i<n; i++)
@@ -35,12 +35,12 @@ int main(){
 			int favWoman=men[curr][favWomanIndex];
 			if(womenPartner[men[curr][favWomanIndex]]==-1){
 				womenPartner[favWoman]=curr;
-				freemen.pop_front();
+				freemen.pop();
 			}
 			else{
 				if(women[favWoman][curr]<women[favWoman][womenPartner[favWoman]]){
-					freemen.push_back(womenPartner[favWoman]);
-					freemen.pop_front();
+					freemen.pop();
+					freemen.push(womenPartner[favWoman]);
 					womenPartner[favWoman]=curr;
 				}
 			}

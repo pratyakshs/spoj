@@ -1,8 +1,8 @@
-#include<bits/stdc++.h>
+#include<stdio.h>
 inline int readInt () {
 	int result = 0;
 	char ch;
-	while (true) {
+	while (1==1) {
 		ch = getchar_unlocked();
 		if (ch<'0' || ch>'9') break;
 		result = result*10 + (ch - '0');
@@ -18,7 +18,7 @@ int main(){
 		for(int i=0; i<a; i++)
 			arr[i]=readInt();
 		int front=0, back=-1, maxSum=0, maxWindow=0, sum=arr[0];
-		while(true){
+		while(1==1){
 			if(front>=a)
 				break;
 			if(sum<=b)
