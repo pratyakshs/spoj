@@ -1,33 +1,41 @@
-#include<stdio.h>
-#include<string>
-#include<iostream>
-#include<math.h>
+#include<bits/stdc++.h>
 using namespace std;
-
-int trans(string s1, string s2)
-{
-	if(s1.size()==1 || s2.size()==1)
-	{
-		if(s1[0]==s2[0])
-			return s1.size()+s2.size()-2;
-		else
-			return s1.size()+s2.size()-1;
+inline int mymin(int a, int b, int c){
+	if(a<=b){
+		if(c<=a)
+			return c;
+		else return a;
 	}
-
-	if(s1[0]==s2[0])
-		return trans(s1.substr(1), s2.substr(1));
-	else
-		return 1+trans(s1.substr(1), s2.substr(1));
+	else{
+		if(c<=b)
+			return c;
+		else
+			return b;
+	}
 }
+
 int main()
 {	
 	int t;
-	scanf("%i", &t);
-	for(int i=0; i<t; i++)
-	{
-		string s1, s2;
+	string s1, s2;
+	scanf("%i\n", &t);
+	while(t--){
 		cin>>s1>>s2;
-		printf("%i\n", trans(s1,s2));
+		int l1=s1.length(), l2=s2.length();
+		int **table=new int*[l1+1];
+		for(int i=0; i<=l1; i++) table[i]=new int[l2+1];
+		for(int i=0; i<=l1; i++)
+			for(int j=0; j<=l2; j++)
+				table[i][j]=0;
+		table[0][0]=0;
+		for(int i=1; i<=l1; i++) table[i][0]=i;
+		for(int j=1; j<=l2; j++) table[0][j]=j;
+		for(int i=1; i<=l1; i++)
+			for(int j=1; j<=l2; j++)
+				table[i][j]=mymin(table[i-1][j-1]+((s1[i-1]==s2[j-1])?0:1), table[i-1][j]+1, table[i][j-1]+1);
+		printf("%i\n", table[l1][l2]);
+		for(int i=0; i<=l1; i++) delete[] table[i];
+		delete[] table;
 	}
 	return 0;
 }
