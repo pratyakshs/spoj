@@ -11,8 +11,7 @@ int main(){
 		sort(sizes, sizes+n);
 		for(int i=n-1; i>=0; i--){
 			final[i]=sizes[i-c[i]];
-			for(int j=i-c[i]; j<i; j++)
-				sizes[j]=sizes[j+1];
+			for(int j=i-c[i]; j<i; j++) sizes[j]=sizes[j+1];
 		}
 		for(int i=0; i<n; i++) printf("%i ", final[i]);
 		printf("\n");
