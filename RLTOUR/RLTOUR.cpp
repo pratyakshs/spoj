@@ -1,16 +1,14 @@
 #include<bits/stdc++.h>
 using namespace std;
 int main(){
-	int t;
+	int t, n;
 	scanf("%i", &t);
 	while(t--){
-		int n;
 		scanf("%i", &n);
-		int sizes[n], c[n];
+		int sizes[n], c[n], final[n];
 		for(int i=0; i<n; i++)scanf("%i", &sizes[i]);
 		for(int i=0; i<n; i++) scanf("%i", &c[i]);
 		sort(sizes, sizes+n);
-		int final[n];
 		for(int i=n-1; i>=0; i--){
 			final[i]=sizes[i-c[i]];
 			for(int j=i-c[i]; j<i; j++)
