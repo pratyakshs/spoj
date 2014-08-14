@@ -1,5 +1,8 @@
-#include<stdio.h>
-typedef long long bignum;
+#include<bits/stdc++.h>
+#define __mod__ 1000000007
+using namespace std;
+typedef unsigned long long bignum;
+
 struct pair{
     bignum x,y;
     pair(bignum a, bignum b){
@@ -20,21 +23,24 @@ bignum mulmod(bignum a,bignum b,bignum c){
     return x%c;
 }
 
-pair bezout(bignum a, bignum m){
+::pair bezout(bignum a, bignum m){
     //returns the solution (x,y) of ax+my=1
     if(m==0)
-        return pair(1, 0);
-    pair p=bezout(m, a%m);
-    return pair(p.y, (p.x-(p.y*(a/m))));
+        return ::pair(1, 0);
+    ::pair p=bezout(m, a%m);
+    return ::pair(p.y, (p.x-(p.y*(a/m))));
 }
 
 bignum modInv(bignum a, bignum m){
     //modular mulltiplicative inverse of a (mod m)
-    pair p=bezout(a,m);
+    ::pair p=bezout(a,m);
     if(p.x<0)
         return p.x+m;
     return p.x;
 }
+
+
+
 
 bignum pow(bignum base, bignum exponent, bignum modulo)
 {//implement for the case when base is an nxn matrix. Targeted running time: O(n^3 log(exponent)).
@@ -62,23 +68,41 @@ bignum binomial(bignum n, bignum k, bignum m){
         num=mulmod(num, nterm, m);
         nterm--;
     }
-    bignum den=1; 
+    bignum den=1;
     for(bignum i=2; i<=k; i++){
         den=mulmod(den, i, m);
     }
     return mulmod(num, modInverse(den, m), m);
 }
 
-int main(){
-    bignum t;
-    scanf("%lli", &t);
-    for(bignum i=0; i<t; i++){
-        bignum n, k;
-        scanf("%lli %lli", &n, &k);
-        bignum b=binomial(n, k-1, 1000000007);
-        bignum b2=mulmod(b, b, 1000000007);
-        bignum num=mulmod(b2, n-k+1, 1000000007);
-        bignum den=mulmod(n, k, 1000000007);
-        printf("%lli\n", mulmod(num, modInverse(den, 1000000007), 1000000007));
+
+bignum modexp(bignum base, bignum exponent, bignum modulo)
+{
+    bignum ans=1;
+    while(exponent>0)
+    {
+        //printf("%llu)\n", exponent);
+        if(exponent%2==1)
+            ans=((ans*base)%modulo);
+        exponent>>=1;
+        base=((base*base)%modulo);
     }
+    return ans;
+}
+
+
+int main(){
+    int t;
+    scanf("%i", &t);
+    while(t--){
+        bignum n, p;
+        scanf("%llu %llu", &n, &p);
+        bignum den = (modexp(p, n-1, __mod__)*(p-1)) % __mod__;
+        bignum num = (modexp(p, n, __mod__) + (__mod__ - 1)) % __mod__;
+        bignum factor = (num*modInverse(den, __mod__)) % __mod__;
+        bignum g = __gcd(num, den);
+        bignum x = den/g, z = num/g;
+        printf("%llu %llu\n", z, x);
+    }
+    return 0;
 }
