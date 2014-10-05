@@ -2,27 +2,32 @@
 using namespace std;
 
 int main(){
-    int t;
+    int t, n, x;
     scanf("%i", &t);
-    while(t--){
-        int n;
+    for(int tt = 1; tt <= t; tt++){
         scanf("%i", &n);
-        int *arr = new int[n];
-        for(int i=0; i<n; i++){
-            scanf("%i", &arr[i]);
+        multiset<int> input;
+        while(n--){
+            scanf("%i", &x);
+            input.insert(x);
         }
-        int max=0, constraint=9999, prev=0, maxi=-1, numread=0, curheight=0, maxheight=0;
-        for(int i=0; numread<n; i=(i==n-1)?0:i+1){
-            if(arr[i]==-1)
-                continue;
-            if(arr[i]>max){
-                max=arr[i];
-                maxi=i;
-                numread++;
-                arr[i]=-1;
+        int n_partitions = 0, max_height = 0, curr_height = 0;
+        while(!input.empty()) {
+            curr_height = 1;
+            int top = *(input.begin());
+            input.erase(input.begin());
+            
+            multiset<int>::iterator it = input.lower_bound(max(curr_height, top));
+            while(it != input.end()) {
+                curr_height++;
+                top = *it;
+                input.erase(it);
+                it = input.lower_bound(max(curr_height, top));
             }
-
+            max_height = max(curr_height, max_height);
+            n_partitions++;
         }
+        printf("Case #%i: %i %i\n", tt, n_partitions, max_height);
     }
     return 0;
 }
