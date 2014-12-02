@@ -2,9 +2,12 @@
 #define depth 18
 #define SWAP(a, b) (((a) ^= (b)), ((b) ^= (a)), ((a) ^= (b)))
 using namespace std;
+typedef long long ll;
+
 int ctr = 0;
 struct node {
 	int on, off, upd, l, r;
+	ll m, M, 
 	node() {
 		on = off = upd = l = r = 0;
 	}
@@ -159,36 +162,6 @@ int count1(int v, int l, int r) {
 
 }
 
-void print(){
-	for(int i=1; i<=total_nodes; i++){
-		printf("%i ", i);
-	}
-	printf("\n");
-	for(int i=1; i<=total_nodes; i++){
-		printf("--");
-	}
-	printf("\n");
-	for(int i=1; i<=total_nodes; i++){
-		printf("%i ", tree[i].on);
-	}
-	printf("\n");
-	for(int i=1; i<=total_nodes; i++){
-		printf("%i ", tree[i].off);
-	}
-	printf("\n");
-	for(int i=1; i<=total_nodes; i++){
-		printf("%i ", tree[i].upd);
-	}
-	printf("\n");
-	for(int i=1; i<=total_nodes; i++){
-		printf("--");
-	}
-	printf("\n");
-	for(int i=1; i<=total_nodes; i++){
-		printf("%i ", i);
-	}
-	printf("\n\n");
-}
 
 int main() {
 	init(1);
