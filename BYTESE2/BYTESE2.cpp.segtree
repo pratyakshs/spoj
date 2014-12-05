@@ -1,0 +1,106 @@
+#include <algorithm>
+#include <stdio.h>
+#define levels 4
+using namespace std;
+
+
+int *tree;
+
+int offset = (1 << (levels - 1)) - 1, num_leaves = offset + 1, total_nodes = offset + num_leaves;
+
+inline bool isleaf(int n) {
+	return (n >= (1 << (levels-1))) && (n < (1 << levels));
+}
+
+inline int level(int v) {
+	int ans = 0;
+	while(v >= (1 << ans)){
+		ans++;
+	}
+	return ans;
+}
+
+inline int calc_l(int v){
+	while(v <= offset) {
+		v <<= 1;
+	}
+	return v;
+}
+
+inline int calc_r(int v){
+	while(v <= offset) {
+		v <<= 1;
+		v++;
+	}
+	return v;
+}
+
+void init(int v) {
+	tree[v] = 0;
+
+	if (v > offset)
+		return;
+
+	init(v << 1);
+	init(1+(v << 1));
+}
+
+
+
+void propagate(int n) {
+	if (n == 0)
+		return;
+	tree[n] = max(tree[n << 1], tree[(n << 1) + 1]);
+	propagate(n >> 1);
+}
+
+void add(int n, int x, int y) {
+
+	int l = calc_l(n) - offset, r = calc_r(n) - offset;
+
+	bool flag = l >= x && r <= y;
+
+	if (y < l || x > r){
+		return;
+	}
+
+	if (flag) {
+		tree[n]++;
+		propagate(n >> 1);
+		return;
+	}
+
+	int mid = (l + r) >> 1, left = n << 1, right = left + 1;
+
+	if (x > mid) 
+		add(right, x, y);
+	else if (y <= mid)
+		add(left, x, y);
+	else {
+		add(left, x, y);
+		add(right, x, y);
+	}
+}
+
+
+int main() {
+	int t, n, x, y;
+	scanf("%i", &t);
+
+	while(t--) {
+		tree = new int[1 << levels];
+		scanf("%i", &n);
+		for(int i = 0; i < n; i++) {
+			scanf("%i %i", &x, &y);
+			add(1, x, y);
+			printf("printing tree---------------------\n");
+			for(int i = 1; i < (1 << levels); i++)
+				printf("%x(%i) ", i, tree[i]);
+			printf("\n\n");
+		}
+		printf("%i\n", tree[1]);
+
+		delete[] tree;
+	}
+
+}
